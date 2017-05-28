@@ -57,29 +57,6 @@ const todoApp = combineReducers({
 
 const store = createStore(todoApp);
 
-const FilterLink = ({
-  filter,
-  currentFilter,
-  children
-}) => {
-  if (filter === currentFilter) {
-    return <span>{children}</span>;
-  }
-  return (
-    <a href='#'
-      onClick={e => {
-        e.preventDefault();
-        store.dispatch({
-          type: 'SET_VISIBILITY_FILTER',
-          filter
-        });
-      }}
-    >
-      {children}
-    </a>
-  );
-};
-
 const Todo = ({
   onClick,
   text,
@@ -127,6 +104,60 @@ const AddTodo = ({
       </button>
     </div>
   );
+};
+
+const FilterLink = ({
+  filter,
+  currentFilter,
+  children,
+  onClick
+}) => {
+  if (filter === currentFilter) {
+    return <span>{children}</span>;
+  }
+  return (
+    <a href='#'
+      onClick={e => {
+        e.preventDefault();
+        onClick(filter);
+      }}
+    >
+      {children}
+    </a>
+  );
+};
+
+const Footer = ({
+  visibilityFilter,
+  onFilterClick
+}) => {
+  <p>
+    Show:
+    {' '}
+    <FilterLink
+      filter='SHOW_ALL'
+      currentFilter={visibilityFilter}
+      onClick={onFilterClick}
+    >
+      All
+    </FilterLink>
+    {' '}
+    <FilterLink
+      filter='SHOW_ACTIVE'
+      currentFilter={visibilityFilter}
+      onClick={onFilterClick}
+    >
+      Active
+    </FilterLink>
+    {' '}
+    <FilterLink
+      filter='SHOW_COMPLETED'
+      currentFilter={visibilityFilter}
+      onClick={onFilterClick}
+    >
+      Completed
+    </FilterLink>
+  </p>
 };
 
 const getVisibleTodos = (
@@ -180,30 +211,15 @@ class TodoApp extends React.Component {
             });
           }
         />
-        <p>
-          Show:
-          {' '}
-          <FilterLink
-            filter='SHOW_ALL'
-            currentFilter={visibilityFilter}
-          >
-            All
-          </FilterLink>
-          {' '}
-          <FilterLink
-            filter='SHOW_ACTIVE'
-            currentFilter={visibilityFilter}
-          >
-            Active
-          </FilterLink>
-          {' '}
-          <FilterLink
-            filter='SHOW_COMPLETED'
-            currentFilter={visibilityFilter}
-          >
-            Completed
-          </FilterLink>
-        </p>
+        <Footer
+          visibilityFilter={visibilityFilter}
+          onFilterClick={filter =>
+            store.dispatch({
+              type: 'SET_VISIBILITY_FILTER',
+              filter: filter
+            });
+          }
+        />
       </div>
     )
   }
