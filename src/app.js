@@ -107,6 +107,7 @@ const TodoList = ({
         onClick={() => onTodoClick(todo.id)}
       />
     )
+  </ul>
 );
 
 const getVisibleTodos = (
