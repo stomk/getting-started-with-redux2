@@ -63,13 +63,13 @@ const Todo = ({
   completed
 }) => (
   <li
-      onClick={onClick}
-      style={{
-        textDecoration: completed ? 'line-through' : 'none'
-      }}
-    >
-      {text}
-    </li>
+    onClick={onClick}
+    style={{
+      textDecoration: completed ? 'line-through' : 'none'
+    }}
+  >
+    {text}
+  </li>
 );
 
 const TodoList = ({
@@ -77,13 +77,13 @@ const TodoList = ({
   onTodoClick
 }) => (
   <ul>
-    todos.map(todo =>
+    {todos.map(todo =>
       <Todo
-        id={todo.id}
+        key={todo.id}
         {...todo}
         onClick={() => onTodoClick(todo.id)}
       />
-    )
+    )}
   </ul>
 );
 
@@ -130,7 +130,7 @@ const FilterLink = ({
 const Footer = ({
   visibilityFilter,
   onFilterClick
-}) => {
+}) => (
   <p>
     Show:
     {' '}
@@ -158,7 +158,7 @@ const Footer = ({
       Completed
     </FilterLink>
   </p>
-};
+);
 
 const getVisibleTodos = (
   todos,
@@ -177,7 +177,7 @@ const getVisibleTodos = (
 }
 
 let nextTodoId = 0;
-class TodoApp = ({
+const TodoApp = ({
   todos,
   visibilityFilter
 }) => (
@@ -186,7 +186,7 @@ class TodoApp = ({
       onAddClick={text =>
         store.dispatch({
           type: 'ADD_TODO',
-          id: nextTodoId++
+          id: nextTodoId++,
           text: text,
         })
       }
@@ -196,13 +196,13 @@ class TodoApp = ({
         getVisibleTodos(
           todos,
           visibilityFilter
-        );
+        )
       }
       onTodoClick={id =>
         store.dispatch({
           type: 'TOGGLE_TODO',
           id: id
-        });
+        })
       }
     />
     <Footer
@@ -211,7 +211,7 @@ class TodoApp = ({
         store.dispatch({
           type: 'SET_VISIBILITY_FILTER',
           filter: filter
-        });
+        })
       }
     />
   </div>
