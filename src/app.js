@@ -1,9 +1,6 @@
-import deepFreeze from 'deep-freeze';
-import expect from 'expect';
 import { createStore, combineReducers } from 'redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 
 // Reducers
